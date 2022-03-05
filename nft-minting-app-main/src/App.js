@@ -156,7 +156,8 @@ function App() {
           });
         }
         else{
-          setFeedback(`You must be on the whitelist address: ${blockchain.smartContract.methods.whitelistUsers(blockchain.account).call()}`);
+          const result = await blockchain.smartContract.methods.whitelistUsers(blockchain.account).call();
+          setFeedback(`You must be on the whitelist address: ${result}`);
         }
       
     } else {
