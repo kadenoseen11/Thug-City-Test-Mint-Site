@@ -156,7 +156,10 @@ function App() {
           });
         }
         else{
-          const result = await blockchain.smartContract.methods.whitelistUsers(blockchain.account).call();
+          const result;
+           blockchain.smartContract.methods.whitelistUsers(blockchain.account).call()
+            .then(data => {
+              result = data});
           setFeedback(`You must be on the whitelist address: ${result}`);
         }
       
