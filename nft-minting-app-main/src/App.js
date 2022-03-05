@@ -156,7 +156,7 @@ function App() {
           });
         }
         else{
-          let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account);
+          let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({from: blockchain.account});
           setFeedback(`You must be on the whitelist address: ${result}`);
         }
       
