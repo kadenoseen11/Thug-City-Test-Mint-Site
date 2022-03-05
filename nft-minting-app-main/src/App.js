@@ -131,7 +131,7 @@ function App() {
     // if whitelist only: check if user is whitelist
     // else continue
     if (blockchain.smartContract.methods.whitelistOnly){
-      if(blockchain.smartContract.methods.whitelistUsers(blockchain.account) > 0){
+      if(blockchain.smartContract.methods.whitelistUsers(`"${blockchain.account}"`) > 0){
         setClaimingNft(true);
       blockchain.smartContract.methods
         .mint(blockchain.account, mintAmount)
