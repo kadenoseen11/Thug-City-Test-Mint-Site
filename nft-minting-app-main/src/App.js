@@ -156,7 +156,7 @@ function App() {
           });
         }
         else{
-          const result;
+          let result = 0;
            blockchain.smartContract.methods.whitelistUsers(blockchain.account).call()
             .then(data => {
               result = data});
