@@ -131,33 +131,33 @@ function App() {
     // if whitelist only: check if user is whitelist
     // else continue
     if (blockchain.smartContract.methods.whitelistOnly){
-      if(blockchain.smartContract.methods.whitelistUsers(`"${blockchain.account}"`) > 0){
+      if(blockchain.smartContract.methods.whitelistUsers(blockchain.account) > 0){
         setClaimingNft(true);
-      blockchain.smartContract.methods
-        .mint(blockchain.account, mintAmount)
-        .send({
-          gasLimit: String(totalGasLimit),
-          to: CONFIG.CONTRACT_ADDRESS,
-          from: blockchain.account,
-          value: totalCostWei,
-        })
-        .once("error", (err) => {
-          console.log(err);
-          setFeedback("Sorry, something went wrong please try again later.");
-          setClaimingNft(false);
-        })
-        .then((receipt) => {
-          console.log(receipt);
-          setFeedback(
-            `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
-          );
-          setClaimingNft(false);
-          dispatch(fetchData(blockchain.account));
-        });
-      }
-      else{
-        setFeedback(`You must be on the whitelist!`);
-      }
+        blockchain.smartContract.methods
+          .mint(blockchain.account, mintAmount)
+          .send({
+            gasLimit: String(totalGasLimit),
+            to: CONFIG.CONTRACT_ADDRESS,
+            from: blockchain.account,
+            value: totalCostWei,
+          })
+          .once("error", (err) => {
+            console.log(err);
+            setFeedback("Sorry, something went wrong please try again later.");
+            setClaimingNft(false);
+          })
+          .then((receipt) => {
+            console.log(receipt);
+            setFeedback(
+              `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+            );
+            setClaimingNft(false);
+            dispatch(fetchData(blockchain.account));
+          });
+        }
+        else{
+          setFeedback(`You must be on the whitelist address: ${blockchain.account}!`);
+        }
       
     } else {
       
