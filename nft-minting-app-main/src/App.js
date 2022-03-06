@@ -132,7 +132,8 @@ function App() {
     let result = 0;
     if (blockchain.smartContract.methods.whitelistOnly) {
       blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-        result = receipt
+        result = this.receipt;
+        console.log(receipt);
       });
       if (result > 0) {
         setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
