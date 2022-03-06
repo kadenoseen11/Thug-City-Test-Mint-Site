@@ -127,11 +127,15 @@ function App() {
     let totalGasLimit = String(gasLimit * mintAmount);
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
-    // if whitel ist only: check if user is whitelist
-    // else continue
+
+
+    let result = 0;
     if (blockchain.smartContract.methods.whitelistOnly) {
-      if (blockchain.smartContract.methods.whitelistUsers(blockchain.account) > 0) {
+      blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
+        result = receipt
+      });
+      if (result > 0) {
+        setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
         setClaimingNft(true);
         blockchain.smartContract.methods
           .mint(blockchain.account, mintAmount)
@@ -156,15 +160,12 @@ function App() {
           });
       }
       else {
-        blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-          setFeedback(`You must be on the whitelist address: ${receipt}`)
-        });
+        setFeedback("Must be on whitelist!");
 
-        //setFeedback(`You must be on the whitelist address: ${receipt}`);
       }
 
     } else {
-
+      setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
       setClaimingNft(true);
       blockchain.smartContract.methods
         .mint(blockchain.account, mintAmount)
