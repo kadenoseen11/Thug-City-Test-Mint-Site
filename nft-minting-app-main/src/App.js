@@ -157,7 +157,7 @@ function App() {
       }
       else {
         blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-          console.log(receipt)
+          setFeedback(`You must be on the whitelist address: ${receipt}`)
         });
 
         //setFeedback(`You must be on the whitelist address: ${receipt}`);
