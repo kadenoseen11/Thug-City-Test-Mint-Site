@@ -129,10 +129,10 @@ function App() {
     console.log("Gas limit: ", totalGasLimit);
 
 
-    let result = 0;
+    let result;
     if (blockchain.smartContract.methods.whitelistOnly) {
       blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-        result = this.receipt;
+        result = receipt;
         console.log(receipt);
       });
       if (result > 0) {
