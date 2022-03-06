@@ -160,7 +160,7 @@ function App() {
           console.log(receipt)
         });
 
-        setFeedback(`You must be on the whitelist address: ${receipt}`);
+        //setFeedback(`You must be on the whitelist address: ${receipt}`);
       }
 
     } else {
