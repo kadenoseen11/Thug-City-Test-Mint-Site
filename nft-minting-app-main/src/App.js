@@ -128,10 +128,10 @@ function App() {
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
-    // if whitelist only: check if user is whitelist
+    // if whitel ist only: check if user is whitelist
     // else continue
-    if (blockchain.smartContract.methods.whitelistOnly){
-      if(blockchain.smartContract.methods.whitelistUsers(blockchain.account) > 0){
+    if (blockchain.smartContract.methods.whitelistOnly) {
+      if (blockchain.smartContract.methods.whitelistUsers(blockchain.account) > 0) {
         setClaimingNft(true);
         blockchain.smartContract.methods
           .mint(blockchain.account, mintAmount)
@@ -154,17 +154,15 @@ function App() {
             setClaimingNft(false);
             dispatch(fetchData(blockchain.account));
           });
-        }
-        else{
-          let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({from: blockchain.account})
-            .then(function (err,res){
-              if(err) {console.log("Error!")}
-              else {return res}});
-          setFeedback(`You must be on the whitelist address: ${result}`);
-        }
-      
+      }
+      else {
+        let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call();
+
+        setFeedback(`You must be on the whitelist address: ${result}`);
+      }
+
     } else {
-      
+
       setClaimingNft(true);
       blockchain.smartContract.methods
         .mint(blockchain.account, mintAmount)
@@ -340,7 +338,7 @@ function App() {
                 </s.TextDescription>
                 <s.SpacerSmall />
                 {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
+                  blockchain.smartContract === null ? (
                   <s.Container ai={"center"} jc={"center"}>
                     <s.TextDescription
                       style={{
