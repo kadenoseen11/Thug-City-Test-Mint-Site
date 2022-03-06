@@ -129,11 +129,11 @@ function App() {
     console.log("Gas limit: ", totalGasLimit);
 
 
-    let result;
+
     if (blockchain.smartContract.methods.whitelistOnly) {
-      blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-        result = receipt;
+      let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
         console.log(receipt);
+        return receipt;
       });
       if (result > 0) {
         setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
