@@ -131,39 +131,37 @@ function App() {
 
 
     if (blockchain.smartContract.methods.whitelistOnly) {
-      let result = blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
-        console.log(receipt);
-        return receipt;
-      });
-      if (result > 0) {
-        setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
-        setClaimingNft(true);
-        blockchain.smartContract.methods
-          .mint(blockchain.account, mintAmount)
-          .send({
-            gasLimit: String(totalGasLimit),
-            to: CONFIG.CONTRACT_ADDRESS,
-            from: blockchain.account,
-            value: totalCostWei,
-          })
-          .once("error", (err) => {
-            console.log(err);
-            setFeedback("Sorry, something went wrong please try again later.");
-            setClaimingNft(false);
-          })
-          .then((receipt) => {
-            console.log(receipt);
-            setFeedback(
-              `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
-            );
-            setClaimingNft(false);
-            dispatch(fetchData(blockchain.account));
-          });
-      }
-      else {
-        setFeedback("Must be on whitelist!");
+      blockchain.smartContract.methods.getWhitelistUser(blockchain.account).call({ from: blockchain.account }).then(function (receipt) {
+        if (receipt > 0) {
+          setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+          setClaimingNft(true);
+          blockchain.smartContract.methods
+            .mint(blockchain.account, mintAmount)
+            .send({
+              gasLimit: String(totalGasLimit),
+              to: CONFIG.CONTRACT_ADDRESS,
+              from: blockchain.account,
+              value: totalCostWei,
+            })
+            .once("error", (err) => {
+              console.log(err);
+              setFeedback("Sorry, something went wrong please try again later.");
+              setClaimingNft(false);
+            })
+            .then((receipt) => {
+              console.log(receipt);
+              setFeedback(
+                `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+              );
+              setClaimingNft(false);
+              dispatch(fetchData(blockchain.account));
+            });
+        }
+        else {
+          setFeedback("Must be on whitelist!");
 
-      }
+        }
+      });
 
     } else {
       setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
